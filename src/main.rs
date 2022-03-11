@@ -32,7 +32,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         term.clear_screen()?;
         print!(
             "[{}] {}'s turn!\n\n{}\n\nPlease enter the corresponding number you want to place: ",
-            board.this_shape(),
+            board.this_shape().to_string(),
             board.round_player().name(),
             board.display()
         );
@@ -56,7 +56,12 @@ fn main() -> Result<(), Box<dyn Error>> {
 
         if let Some(player) = board.check() {
             term.clear_screen()?;
-            println!("{} has won the game!\n\n{}\n", player.name(), board.display());
+            println!(
+                "[{}] {} has won the game!\n\n{}\n",
+                board.this_shape().other().to_string(),
+                player.name(),
+                board.display()
+            );
             break;
         }
     }

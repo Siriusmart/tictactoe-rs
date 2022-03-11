@@ -120,10 +120,39 @@ impl Board {
         format!("   |   |   \n {} | {} | {} \n   |   |   \n———+———+———\n   |   |   \n {} | {} | {} \n   |   |   \n———+———+———\n   |   |   \n {} | {} | {} \n   |   |   ", mapped_board[0], mapped_board[1], mapped_board[2], mapped_board[3], mapped_board[4], mapped_board[5], mapped_board[6], mapped_board[7], mapped_board[8])
     }
 
-    pub fn this_shape(&self) -> String {
+    pub fn this_shape(&self) -> Shape {
         match self.round {
-            Round::Player1 => String::from("O"),
-            Round::Player2 => String::from("X"),
+            Round::Player1 => Shape::new("O").unwrap(),
+            Round::Player2 => Shape::new("X").unwrap(),
+        }
+    }
+}
+
+pub enum Shape {
+    X,
+    O,
+}
+
+impl Shape {
+    fn new(symb: &str) -> Result<Shape, &str> {
+        match symb {
+            "X" => Ok(Shape::X),
+            "O" => Ok(Shape::O),
+            _ => Err("invalid symbol"),
+        }
+    }
+
+    pub fn other(&self) -> Shape {
+        match self {
+            Shape::O => Shape::X,
+            Shape::X => Shape::O,
+        }
+    }
+
+    pub fn to_string(&self) -> &str {
+        match self {
+            Shape::O => "O",
+            Shape::X => "X",
         }
     }
 }
