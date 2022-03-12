@@ -40,6 +40,7 @@ pub struct Board {
     player2: Player,
     round: Round,
     board: [Option<Player>; 9],
+    placed: u8,
 }
 
 impl Board {
@@ -51,7 +52,12 @@ impl Board {
             player2: Player::new(player2),
             round: Round::random(),
             board: [NONE; 9],
+            placed: 0,
         }
+    }
+
+    pub fn full(&self) -> bool {
+        self.placed == 9
     }
 
     pub fn check(&self) -> Option<Player> {
@@ -96,6 +102,7 @@ impl Board {
         if self.board[index].is_none() {
             self.board[index] = Some(self.round_player());
             self.round = self.round.other();
+            self.placed += 1;
             Ok(())
         } else {
             Err("position alread occupied")

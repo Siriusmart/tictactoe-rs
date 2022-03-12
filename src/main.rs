@@ -29,6 +29,12 @@ fn main() -> Result<(), Box<dyn Error>> {
     );
 
     loop {
+        if board.full() {
+            term.clear_screen()?;
+            println!("The game is a draw!\n\n{}\n", board.display());
+            break;
+        }
+
         term.clear_screen()?;
         print!(
             "[{}] {}'s turn!\n\n{}\n\nPlease enter the corresponding number you want to place: ",
