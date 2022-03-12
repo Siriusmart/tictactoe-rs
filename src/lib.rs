@@ -1,6 +1,6 @@
 use rand::prelude::*;
 
-#[derive(Clone, PartialEq)]
+#[derive(Clone, PartialEq, Debug)]
 pub struct Player(String);
 
 impl Player {
@@ -81,7 +81,7 @@ impl Board {
                 || (self.board[2] == self.board[4] && self.board[4] == self.board[6])
                 || (self.board[3] == self.board[4] && self.board[4] == self.board[5]))
         {
-            return self.board[5].clone();
+            return self.board[4].clone();
         }
 
         None

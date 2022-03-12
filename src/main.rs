@@ -29,13 +29,26 @@ fn main() -> Result<(), Box<dyn Error>> {
     );
 
     loop {
+        term.clear_screen()?;
+
+        if let Some(player) = board.check() {
+            term.clear_screen()?;
+            println!(
+                "[{}] {} has won the game!\n\n{}\n",
+                board.this_shape().other().to_string(),
+                player.name(),
+                board.display()
+            );
+            break;
+        }
+
         if board.full() {
             term.clear_screen()?;
             println!("The game is a draw!\n\n{}\n", board.display());
             break;
         }
 
-        term.clear_screen()?;
+        
         print!(
             "[{}] {}'s turn!\n\n{}\n\nPlease enter the corresponding number you want to place: ",
             board.this_shape().to_string(),
@@ -58,17 +71,6 @@ fn main() -> Result<(), Box<dyn Error>> {
             eprintln!("{}", e);
             press_enter_to_continue();
             continue;
-        }
-
-        if let Some(player) = board.check() {
-            term.clear_screen()?;
-            println!(
-                "[{}] {} has won the game!\n\n{}\n",
-                board.this_shape().other().to_string(),
-                player.name(),
-                board.display()
-            );
-            break;
         }
     }
 
